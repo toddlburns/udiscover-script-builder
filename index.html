@@ -553,8 +553,8 @@
 
                     <div class="api-section">
                         <div class="form-group" style="margin-bottom: 0;">
-                            <label>Anthropic API Key</label>
-                            <input type="password" id="apiKey" placeholder="sk-ant-..." onchange="saveApiKey()">
+                            <label>Anthropic API Key <span class="status-badge saved" id="apiKeySaveStatus" style="display: none;">Saved</span></label>
+                            <input type="password" id="apiKey" placeholder="sk-ant-..." oninput="saveApiKey()">
                             <p class="help-text">Stored locally in your browser only</p>
                         </div>
                     </div>
@@ -949,6 +949,12 @@
         function saveApiKey() {
             const key = document.getElementById('apiKey').value;
             localStorage.setItem('anthropic_api_key', key);
+
+            // Show saved indicator
+            const status = document.getElementById('apiKeySaveStatus');
+            status.style.display = 'inline-block';
+            clearTimeout(window.apiKeySaveTimeout);
+            window.apiKeySaveTimeout = setTimeout(() => status.style.display = 'none', 2000);
         }
 
         function generateSystemPrompt() {
